@@ -1,17 +1,22 @@
+import java.util.Random;
 import structure5.*;
 
-
 public class Bank extends BusinessSimulation {
-    
-    public Bank(int numCustomers, int numServicePoints,
-		int maxEventStart, int seed) {
-	super(numCustomers, numServicePoints, maxEventStart, seed);
+
+    public Bank (int numCustomers, int numServicePoints,
+                 int maxEventStart, int seed) {
+        super(numCustomers, numServicePoints,
+              maxEventStart, seed); 
     }
 
-    public void run(int duration) {
-	this.duration = duration;
+    public Vector<Teller> generateServicePoints() {
+        
+    }
 
-	while(!step()) {
+    public void runSimulation(int duration) {
+        this.duration = duration;
+
+        while(!step()) {
 	    // STEP 1: Handle customers & open tellers?
 	    for (int i = 0; i < servicePoints.size(); ++i) {
 

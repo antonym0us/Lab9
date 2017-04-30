@@ -1,35 +1,22 @@
-/* SHIVAM PATEL & ANTONY KIM */
-
-/*
- * 
- */
 import structure5.*;
+
 public class Teller {
 
-    protected int currentTime;
     protected boolean isIdle;
-    protected Queue<Customer> customerQueue;
+    protected PriorityQueue<Customer> customers;
     protected Customer currentClient;
     
-    public Teller(Queue<Customer> q){
-	//this.currentTime = currentTime; ?
-	customerQueue = q;
-	isIdle = true;
-	currentClient = customerQueue.getFirst();
+    public Teller (PriorityQueue<Customer> customers) {
+        this.customers = customers;
+        isIdle = true;
     }
 
-    public void serviceCustomer(){
-	if (customerQueue.hasNext()) {
-	    if (currentClient.getServiceTime() != 0) {
-		currentClient.service();
-	    } else {
-		currentClient = customerQueue.getFirst();
-		serviceCustomer();
-	    }
-	}
+    public void serviceCustomer(Customer nextClient) {
+        if (currentClient == null) {currentClient = nextClient;}
+        nextClient.service();
     }
-    
+
     public boolean isAvailable() {
-	return isIdle;
+        return isIdle;
     }
 }
