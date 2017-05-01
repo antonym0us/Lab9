@@ -10,12 +10,23 @@ public class Teller {
         this.customers = customers;
         isIdle = true;
     }
+    
+    public void serviceCustomer(){
+	// Is the teller idle?
+	if (isIdle && !customers.isEmpty()) {
+	    currentCleint = customers.getFirst();
+	}
 
-    public void serviceCustomer(Customer nextClient) {
-        if (currentClient == null) {currentClient = nextClient;}
-        nextClient.service();
-    }
-
+	if (currentClient.getServiceTime() == 1) {
+	    currentClient.service();
+	    customers.remove();
+	    isIdle = true;
+	} else {
+	    currentClient.service();
+	    isIdle = false;
+	}
+    }   
+    
     public boolean isAvailable() {
         return isIdle;
     }
