@@ -8,9 +8,9 @@ public class Bank extends BusinessSimulation {
      * constructor
      */
     public Bank (int numCustomers, int numServicePoints,
-                 int maxEventStart, int seed, int duration) {
-        super(numCustomers, numServicePoints,
-              maxEventStart, seed, duration); 
+		 int maxEventStart, int seed, int duration) {
+	super(numCustomers, numServicePoints,
+	      maxEventStart, seed, duration);
     }
 
     /**
@@ -20,13 +20,13 @@ public class Bank extends BusinessSimulation {
      * @arg numServicePoints number of tellers to add to the vector
      */
     public Vector<Teller> generateServicePoints(int numServicePoints) {
-        Vector<Teller> output = new Vector<Teller>();
-        
-        for (int i = 0; i < numServicePoints; ++i) {
-            output.add(new Teller(eventQueue));
-        }
+	Vector<Teller> output = new Vector<Teller>();
 
-        return output;
+	for (int i = 0; i < numServicePoints; ++i) {
+	    output.add(new Teller(eventQueue));
+	}
+
+	return output;
     }
 
     /**
@@ -34,9 +34,9 @@ public class Bank extends BusinessSimulation {
      * @arg duration the number of timeSteps to run the simulation
      */
     public void runSimulation(int duration) {
-        this.duration = duration;
+	this.duration = duration;
 
-        while(!step()) {
+	while(!step()) {
 	    // STEP 1: Handle customers & open tellers?
 	    for (int i = 0; i < servicePoints.size(); ++i) {
 
@@ -44,18 +44,19 @@ public class Bank extends BusinessSimulation {
 
 		// update the time for the tellers
 		curr.updateTime(time);
-		
+
 		// Handle existing customer, if any
 		curr.serviceCustomer();
-		
+
 	    }
-	    
+
 	    // STEP 2: Print out status
 	    if (time % 5 == 0) {
 		System.out.println(toString());
 	    }
-	    
+
 	}
+	System.out.println(" ******** " + time);
     }
-    
+
 }
