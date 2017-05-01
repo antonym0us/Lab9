@@ -1,4 +1,3 @@
-import java.util.Vector;
 import java.util.Random;
 import structure5.*;
 
@@ -55,13 +54,25 @@ public abstract class BusinessSimulation {
         eventQueue = generateCustomerSequence(numCustomers, maxEventStart, seed);
 
         // Populate tellers
-        servicePoints = generatrServicePoints();
+        servicePoints = generateServicePoints(numServicePoints);
 
         // Run the simulation
         time = 0;
         runSimulation(duration);
     }
 
+    /**
+     * Generates a series of service points, stored as a vector of
+     * teller objects that each have a designated queue of customers
+     * to draw from
+     * @arg numServicePoints number of tellers to add to the vector
+     */
+    abstract public Vector<Teller> generateServicePoints(int numServicePoints);
+
+    /**
+     * Runs the simulation for a given amount of timeSteps
+     * @arg duration the number of timeSteps to run the simulation
+     */
     abstract public void runSimulation(int duration);
     
     /**
@@ -88,19 +99,6 @@ public abstract class BusinessSimulation {
         
         return output;
     }
-
-    abstract public Vector<Teller> generateServicePoints();
-    
-    /**
-     * Advances @timeSteps time steps through the simulation.
-     *
-     * @post the simulation has advanced @timeSteps time steps
-     * @return true if the simulation is over, false otherwise
-     */
-    public boolean step(int timeSteps) {
-        time += timeSteps;
-        return time >= duration;
-    }
     
     /**
      * Advances 1 time step through the simulation.
@@ -110,7 +108,18 @@ public abstract class BusinessSimulation {
      */
     public boolean step() {
         ++time;
-        return time >= duration;
+
+        return time >= duration ||
+	    (eventQueue.isEmpty() && allIdle());
+    }
+
+    protected boolean allIdle() {
+	for (int i = 0; i < servicePoints.size(); ++i) {
+	    if (!servicePoints.get(i).isAvailable()) {
+		return false;
+	    }
+	}
+	return true;
     }
     
     /**
@@ -126,7 +135,7 @@ public abstract class BusinessSimulation {
         str = str + "\n";
         
         if (servicePoints != null)  {
-            for (Queue<Customer> sp : servicePoints) {
+            for (Teller sp : servicePoints) {
                 str = str + "Service Point: " + sp.toString() + "\n";
             }
         }

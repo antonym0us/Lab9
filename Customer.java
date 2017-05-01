@@ -29,12 +29,16 @@ public class Customer implements Comparable<Customer> {
     }
 
     /** Returns the service time of the customer */
-    public int getServiceTime(){
+    public int getServiceTime() {
 	return serviceTime;
     }
 
-    public void service(){
+    public void service() {
 	--serviceTime;
+    }
+
+    public int getEventTime() {
+	return this.eventTime;
     }
     
     /** Produces a string representation of the customer */
